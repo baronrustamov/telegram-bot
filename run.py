@@ -185,7 +185,7 @@ if WIT_TOKEN:
 
 # Init telegram
 BOT = telegram.Bot(TELEGRAM_TOKEN)
-UPDATER = Updater(token=TELEGRAM_TOKEN)
+UPDATER = Updater(token=TELEGRAM_TOKEN, use_context=False)
 DISPATCHER = UPDATER.dispatcher
 logging.info('Bot started')
 notify_admins('Bot started')
