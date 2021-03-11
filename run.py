@@ -64,7 +64,7 @@ def tghelp(bot, update):
     update.message.reply_text(
         'The on-topic group is [here](https://telegram.me/pythontelegrambotgroup). '
         'Come join us!',
-        quote=True, disable_web_page_preview=True, parse_mode=ParseMode.MARKDOWN)
+        quote=True, disable_web_page_preview=True)#, parse_mode=ParseMode.MARKDOWN)
 
 
 def text(bot, update):
