@@ -2,7 +2,7 @@ from collections import namedtuple
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update
 from telegram.error import BadRequest
-from telegram.ext import CommandHandler, Filters, MessageHandler, CallbackContext
+#from telegram.ext import CommandHandler, Filters, MessageHandler, CallbackContext
 
 import const
 import util
