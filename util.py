@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 from fuzzywuzzy import process, fuzz
 from requests import Session
 from telegram import ParseMode, Update
-№from telegram.ext import CallbackContext
+from telegram.ext import CallbackContext
 
 from const import USER_AGENT
 
