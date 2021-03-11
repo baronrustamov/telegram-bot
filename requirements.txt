@@ -1,3 +1,10 @@
 dialogflow==0.4.0
-python-telegram-bot==10.1.0
 wit==5.1.0
+beautifulsoup4
+fuzzywuzzy
+python-Levenshtein
+python-telegram-bot==13.0
+Sphinx
+requests
+py
+apiai
