@@ -4,7 +4,7 @@ from html import escape
 from uuid import uuid4
 
 from telegram import InlineQueryResultArticle, InputTextMessageContent, ParseMode, Update
-from telegram.ext import InlineQueryHandler, CallbackContext
+from telegram.ext import InlineQueryHandler #, CallbackContext
 
 from components import taghints
 from const import ENCLOSED_REGEX, TELEGRAM_SUPERSCRIPT, ENCLOSING_REPLACEMENT_CHARACTER, GITHUB_PATTERN
