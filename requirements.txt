@@ -7,8 +7,3 @@ python-telegram-bot==13.0
 Sphinx
 requests
 py
-<<<<<<< HEAD
-apiai
-=======
-apiai
->>>>>>> 78eabc3c8ad83d33b67e928f60a643af924acb92
