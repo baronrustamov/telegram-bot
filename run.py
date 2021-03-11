@@ -171,8 +171,8 @@ notify_admins('Bot started')
 START_HANDLER = CommandHandler('start', start)
 DISPATCHER.add_handler(START_HANDLER)
 
-TGHELP_HANDLER = CommandHandler('help', tghelp)
-DISPATCHER.add_handler(TGHELP_HANDLER)
+#TGHELP_HANDLER = CommandHandler('help', tghelp)
+#DISPATCHER.add_handler(TGHELP_HANDLER)
 
 sandwich_handler = MessageHandler(Filters.regex(r'(?i)[\s\S]*?((sudo )?make me a sandwich)[\s\S]*?'),
                                       sandwich)
