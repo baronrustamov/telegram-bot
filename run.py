@@ -17,7 +17,7 @@ import dialogflow
 from telegram.ext import Updater, CommandHandler, Filters, \
     MessageHandler, InlineQueryHandler
 import telegram
-from telegram import InlineQueryResultArticle, InputTextMessageContent
+from telegram import ParseMode, MessageEntity, ChatAction, Update, Bot, InlineQueryResultArticle, InputTextMessageContent
 
 from wit import Wit
 from wit.wit import WitError
@@ -64,7 +64,7 @@ def tghelp(bot, update):
     update.message.reply_text(
         'The on-topic group is [here](https://telegram.me/pythontelegrambotgroup). '
         'Come join us!',
-        quote=True, disable_web_page_preview=True)#, parse_mode=ParseMode.MARKDOWN)
+        quote=True, disable_web_page_preview=False)#, parse_mode=ParseMode.MARKDOWN)
 
 
 def text(bot, update):
