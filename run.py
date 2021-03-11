@@ -34,7 +34,9 @@ from util import get_reply_id, reply_or_edit, get_text_not_in_entities, github_i
 from telegram.ext import Updater, CommandHandler, Filters, \
     MessageHandler, InlineQueryHandler
 import telegram
-from telegram import ParseMode, MessageEntity, ChatAction, Update, Bot, InlineQueryResultArticle, InputTextMessageContent
+from telegram import InlineQueryResultArticle, InputTextMessageContent
+
+#from telegram import ParseMode, MessageEntity, ChatAction, Update, Bot, InlineQueryResultArticle, InputTextMessageContent
 
 from wit import Wit
 from wit.wit import WitError
