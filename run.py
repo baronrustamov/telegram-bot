@@ -40,6 +40,29 @@ def start(bot, update):
     reply = dialogflow_event_request('TELEGRAM_WELCOME', chat_id)
     bot.send_message(chat_id=chat_id, text=reply)
 
+'''    
+def tghelp(bot, update):
+    chat_id = update.message.chat_id
+    bot.send_chat_action(chat_id=chat_id, action=telegram.ChatAction.TYPING)
+    reply = dialogflow_event_request('TELEGRAM_WELCOME', chat_id)
+    bot.send_message(chat_id=chat_id, text=reply)
+'''
+
+def sandwich(bot, update):
+    chat_id = update.message.chat_id
+    bot.send_chat_action(chat_id=chat_id, action=telegram.ChatAction.TYPING)
+    #reply = dialogflow_event_request('TELEGRAM_WELCOME', chat_id)
+    #bot.send_message(chat_id=chat_id, text=reply)
+    update.message.reply_text("Okay.", quote=True)
+
+'''
+    off_on_topic_handler = MessageHandler(Filters.regex(r'(?i)[\s\S]*?\b(?<!["\\])(off|on)[- _]?topic\b'),
+                                          off_on_topic)
+    delete_new_chat_members_handler = MessageHandler(Filters.status_update.new_chat_members,
+                                                     delete_new_chat_members_message)
+    greet_new_chat_members_handler = MessageHandler(Filters.status_update.new_chat_members,
+                                                    greet_new_chat_members)
+'''
 
 def text(bot, update):
     chat_id = update.message.chat_id
@@ -147,6 +170,14 @@ notify_admins('Bot started')
 # Add telegram handlers
 START_HANDLER = CommandHandler('start', start)
 DISPATCHER.add_handler(START_HANDLER)
+
+TGHELP_HANDLER = CommandHandler('help', tghelp)
+DISPATCHER.add_handler(TGHELP_HANDLER)
+
+sandwich_handler = MessageHandler(Filters.regex(r'(?i)[\s\S]*?((sudo )?make me a sandwich)[\s\S]*?'),
+                                      sandwich)
+DISPATCHER.add_handler(sandwich_handler)
+
 TEXT_HANDLER = MessageHandler(Filters.text, text)
 DISPATCHER.add_handler(TEXT_HANDLER)
 INLINE_HANDLER = InlineQueryHandler(inline)
