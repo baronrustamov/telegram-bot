@@ -204,7 +204,7 @@ def inline_github(query):
 
 
 #def inline_query(update: Update, context: CallbackContext, threshold=15):
-    def inline_query(bot, update):
+def inline_query(bot, update):
     query = update.inline_query.query
     results_list = list()
 
