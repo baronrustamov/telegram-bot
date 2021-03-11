@@ -323,5 +323,5 @@ def inline_query(bot, update):
                                auto_pagination=True)
 
 
-def register(dispatcher):
-    dispatcher.add_handler(InlineQueryHandler(inline_query))
+#def register(dispatcher):
+ #   DISPATCHER.add_handler(InlineQueryHandler(inline_query))
