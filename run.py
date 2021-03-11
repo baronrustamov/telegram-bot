@@ -18,7 +18,7 @@ import dialogflow
 import time
 import datetime as dtm
 from telegram.error import BadRequest, Unauthorized
-from telegram.ext import CommandHandler, Updater, MessageHandler, Filters, CallbackContext
+#from telegram.ext import CommandHandler, Updater, MessageHandler, Filters, CallbackContext
 from telegram.utils.helpers import escape_markdown
 
 import const
