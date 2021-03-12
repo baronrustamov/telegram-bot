@@ -29,13 +29,14 @@ FILE_NAME = '1.jpg'
 with io.open(os.path.join(FILE_NAME), 'rb') as image_file:
     content = image_file.read()
 
-image = vision_v1.types.Image(content=content)
-
-response = client.text_detection(image=image)
-
-texts = response.text_annotations[0]
+#image = vision_v1.types.Image(content=content)
+image = vision_v1.Image(content=content)
+response = client.web_detection(image=image)
+ant = response.web_detection
+#texts = response.text_annotations[0]
 # print(texts.description)
 
+texts = response.text_annotations
 '''
 if '?' in texts.description:
     question = re.search('([^?]+)', texts.description).group(1)
@@ -109,4 +110,4 @@ for url in result_urls[:3]:
 answer = find_answer()
 print('Answer: ' + answer)
 '''
-print(texts)
+print(ant)
