@@ -14,7 +14,7 @@ import requests
 import urllib
 import urllib.request
 import tempfile
-import os
+import os, io
 import subprocess
 import sys
 import dialogflow
@@ -54,6 +54,9 @@ from lang import NOT_UNDERSTOOD
 import img_rec
 from img_rec import recog
 
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'vidkey.json'
+
+client = vision_v1.ImageAnnotatorClient()
 
 def notify_admins(message):
     for admin_id in ADMIN_CHAT_ID:
