@@ -6,6 +6,9 @@ import hashlib
 import re
 import requests
 from time import sleep
+import json
+#from protobuf_to_dict import protobuf_to_dict
+from google.protobuf.json_format import MessageToJson, MessageToDict, Parse
 from google.cloud import vision_v1
 from google.cloud.vision_v1 import types
 from urllib.request import urlopen, Request
@@ -20,10 +23,9 @@ from cdqa.utils.converters import pdf_converter
 '''
 result_urls = []
 
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'idkey.json'
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'vidkey.json'
 
 client = vision_v1.ImageAnnotatorClient()
-
 FILE_NAME = '1.jpg'
 
 with io.open(os.path.join(FILE_NAME), 'rb') as image_file:
@@ -32,11 +34,64 @@ with io.open(os.path.join(FILE_NAME), 'rb') as image_file:
 #image = vision_v1.types.Image(content=content)
 image = vision_v1.Image(content=content)
 response = client.web_detection(image=image)
-ant = response.web_detection
+annotations = response.web_detection
+res = annotations.__class__.to_json(annotations)
+
+'''
+if annotations.best_guess_labels:
+    for label in annotations.best_guess_labels:
+        print('\nBest guess label: {}'.format(label.label))
+
+if annotations.pages_with_matching_images:
+    print('\n{} Pages with matching images found:'.format(
+        len(annotations.pages_with_matching_images)))
+
+    for page in annotations.pages_with_matching_images:
+        print('\n\tPage url   : {}'.format(page.url))
+
+            if page.full_matching_images:
+                print('\t{} Full Matches found: '.format(
+                       len(page.full_matching_images)))
+
+                for image in page.full_matching_images:
+                    print('\t\tImage url  : {}'.format(image.url))
+
+            if page.partial_matching_images:
+                print('\t{} Partial Matches found: '.format(
+                       len(page.partial_matching_images)))
+
+                for image in page.partial_matching_images:
+                    print('\t\tImage url  : {}'.format(image.url))
+
+    if annotations.web_entities:
+        print('\n{} Web entities found: '.format(
+            len(annotations.web_entities)))
+
+        for entity in annotations.web_entities:
+            print('\n\tScore      : {}'.format(entity.score))
+            print(u'\tDescription: {}'.format(entity.description))
+
+    if annotations.visually_similar_images:
+        print('\n{} visually similar images found:\n'.format(
+            len(annotations.visually_similar_images)))
+
+        for image in annotations.visually_similar_images:
+            print('\tImage url    : {}'.format(image.url))
+
+    if response.error.message:
+        raise Exception(
+            '{}\nFor more info on error messages, check: '
+            'https://cloud.google.com/apis/design/errors'.format(
+                response.error.message))
+    # [END vision_python_migration_web_detection]
+# [END vision_web_detection]
+
+'''
+
 #texts = response.text_annotations[0]
 # print(texts.description)
 
-texts = response.text_annotations
+#texts = response.text_annotations
 '''
 if '?' in texts.description:
     question = re.search('([^?]+)', texts.description).group(1)
@@ -110,4 +165,4 @@ for url in result_urls[:3]:
 answer = find_answer()
 print('Answer: ' + answer)
 '''
-print(ant)
+print(res)

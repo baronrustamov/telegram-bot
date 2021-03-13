@@ -44,6 +44,7 @@ from wit.wit import WitError
 
 from config import TELEGRAM_TOKEN, ADMIN_CHAT_ID, DIALOGFLOW_KEY, WIT_TOKEN, LANG
 from lang import NOT_UNDERSTOOD
+from img_rec import res
 
 
 def notify_admins(message):
@@ -91,6 +92,14 @@ def text(bot, update):
     chat_id = update.message.chat_id
     bot.send_chat_action(chat_id=chat_id, action=telegram.ChatAction.TYPING)
     reply = dialogflow_text_request(update.message.text, chat_id)
+    bot.send_message(chat_id=chat_id, text=reply)
+
+
+def img(bot, update):
+    chat_id = update.message.chat_id
+    bot.send_chat_action(chat_id=chat_id, action=telegram.ChatAction.TYPING)
+    #reply = res
+    #reply = dialogflow_text_request(update.message.text, chat_id)
     bot.send_message(chat_id=chat_id, text=reply)
 
 
@@ -201,6 +210,9 @@ sandwich_handler = MessageHandler(Filters.regex(r'(?i)[\s\S]*?((sudo )?make me a
                                       sandwich)
 
 DISPATCHER.add_handler(sandwich_handler)
+
+img_handler = MessageHandler(Filters.photo, img)
+DISPATCHER.add_handler(img_handler)
 
 TEXT_HANDLER = MessageHandler(Filters.text, text)
 DISPATCHER.add_handler(TEXT_HANDLER)
