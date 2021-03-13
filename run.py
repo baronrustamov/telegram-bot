@@ -150,11 +150,15 @@ def img(bot, update):
     res = annotations.__class__.to_json(annotations)
     dataimg = json.loads(res)
     jdump = json.dumps(res, indent=4)
-    print(dataimg["webEntities"][0]["description"])
+    #print(dataimg["webEntities"][0]["description"])
     print(dataimg)
     print(res)
     print(jdump)
+
     out = dataimg["webEntities"][0]["description"] + '\n' + '\n'
+    out = out + dataimg["webEntities"][1]["description"] + '\n' + '\n'
+    out = out + dataimg["webEntities"][2]["description"] + '\n' + '\n'
+    out = out + dataimg["webEntities"][3]["description"] + '\n' + '\n'
 
     bot.send_message(chat_id=chat_id, text=out)
 
