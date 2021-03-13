@@ -26,7 +26,7 @@ result_urls = []
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'vidkey.json'
 
 client = vision_v1.ImageAnnotatorClient()
-FILE_NAME = '1.jpg'
+FILE_NAME = '2.jpg'
 
 with io.open(os.path.join(FILE_NAME), 'rb') as image_file:
     content = image_file.read()
@@ -40,6 +40,22 @@ dataimg = json.loads(res)
 jdump = json.dumps(res,indent=4)
 
 print(dataimg["webEntities"][0]["description"])
+print(dataimg)
+print(res)
+print(jdump)
+
+out = dataimg["webEntities"][0]["description"] + '\n' + '\n'
+out = out + dataimg["webEntities"][1]["description"] + '\n' + '\n'
+out = out + dataimg["webEntities"][2]["description"] + '\n' + '\n'
+
+txt = '''
+hi
+aloha
+zdraste'''
+print(txt)
+print(out)
+
+
 '''
 if annotations.best_guess_labels:
     for label in annotations.best_guess_labels:
@@ -93,7 +109,6 @@ if annotations.pages_with_matching_images:
 
 #texts = response.text_annotations[0]
 # print(texts.description)
-
 #texts = response.text_annotations
 '''
 if '?' in texts.description:
@@ -168,12 +183,3 @@ for url in result_urls[:3]:
 answer = find_answer()
 print('Answer: ' + answer)
 '''
-print(dataimg)
-print(res)
-print(jdump)
-
-txt = '''
-hi
-aloha
-zdraste'''
-print(txt)
