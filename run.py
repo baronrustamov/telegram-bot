@@ -111,7 +111,7 @@ def img(bot, update):
     file_path = bot.get_file(image_id).file_path
 
     # generate image download url
-    image_url = "https://api.telegram.org/file/bot{0}/{1}".format(environ['TELEGRAM_TOKEN'], file_path)
+    image_url = "https://api.telegram.org/file/bot{0}/{1}".format(['TELEGRAM_TOKEN'], file_path)
     print(image_url)
 
     # create folder to store pic temporary, if it doesnt exist
@@ -123,6 +123,7 @@ def img(bot, update):
     urllib.request.urlretrieve(image_url, "{0}/{1}".format(result_storage_path, image_name))
 
     return image_name
+
     #bot.send_message(chat_id=chat_id, text=reply)
 
     #image_name = save_image_from_message()
@@ -130,10 +131,10 @@ def img(bot, update):
     #reply = dataimg
     #reply = dialogflow_text_request(update.message.text, chat_id)
 
+'''
 def get_image_id_from_message(bot, update):
     # there are multiple array of images, check the biggest
     return update.message.photo[len(update.message.photo) - 1].file_id
-
 def save_image_from_message(bot, update):
     image_id = BOT.get_file(update.message.photo)
 
@@ -156,6 +157,7 @@ def save_image_from_message(bot, update):
     urllib.request.urlretrieve(image_url, "{0}/{1}".format(result_storage_path, image_name))
 
     return image_name;
+'''
 
 def voice(bot, update):
     chat_id = update.message.chat_id
