@@ -37,8 +37,9 @@ response = client.web_detection(image=image)
 annotations = response.web_detection
 res = annotations.__class__.to_json(annotations)
 dataimg = json.loads(res)
+jdump = json.dumps(res,indent=4)
 
-print(dataimg["webEntities"][0])
+print(dataimg["webEntities"][0]["description"])
 '''
 if annotations.best_guess_labels:
     for label in annotations.best_guess_labels:
@@ -169,3 +170,10 @@ print('Answer: ' + answer)
 '''
 print(dataimg)
 print(res)
+print(jdump)
+
+txt = '''
+hi
+aloha
+zdraste'''
+print(txt)
