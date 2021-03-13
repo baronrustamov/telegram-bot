@@ -44,7 +44,7 @@ from wit.wit import WitError
 
 from config import TELEGRAM_TOKEN, ADMIN_CHAT_ID, DIALOGFLOW_KEY, WIT_TOKEN, LANG
 from lang import NOT_UNDERSTOOD
-from img_rec import res
+from img_rec import res, dataimg
 
 
 def notify_admins(message):
@@ -98,7 +98,7 @@ def text(bot, update):
 def img(bot, update):
     chat_id = update.message.chat_id
     bot.send_chat_action(chat_id=chat_id, action=telegram.ChatAction.TYPING)
-    #reply = res
+    reply = dataimg
     #reply = dialogflow_text_request(update.message.text, chat_id)
     bot.send_message(chat_id=chat_id, text=reply)
 

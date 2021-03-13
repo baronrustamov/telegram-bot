@@ -36,7 +36,9 @@ image = vision_v1.Image(content=content)
 response = client.web_detection(image=image)
 annotations = response.web_detection
 res = annotations.__class__.to_json(annotations)
+dataimg = json.loads(res)
 
+print(dataimg["webEntities"][0])
 '''
 if annotations.best_guess_labels:
     for label in annotations.best_guess_labels:
@@ -165,4 +167,5 @@ for url in result_urls[:3]:
 answer = find_answer()
 print('Answer: ' + answer)
 '''
+print(dataimg)
 print(res)
