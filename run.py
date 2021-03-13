@@ -10,6 +10,9 @@ import uuid
 import logging
 import configparser
 import html
+import requests
+import urllib
+import urllib.request
 import tempfile
 import os
 import subprocess
@@ -68,6 +71,8 @@ def tghelp(bot, update):
     reply = dialogflow_event_request('TELEGRAM_WELCOME', chat_id)
     bot.send_message(chat_id=chat_id, text=reply)
 '''
+result_storage_path = 'tmp'
+
 
 def sandwich(bot, update):
     chat_id = update.message.chat_id
@@ -98,10 +103,59 @@ def text(bot, update):
 def img(bot, update):
     chat_id = update.message.chat_id
     bot.send_chat_action(chat_id=chat_id, action=telegram.ChatAction.TYPING)
-    reply = dataimg
-    #reply = dialogflow_text_request(update.message.text, chat_id)
-    bot.send_message(chat_id=chat_id, text=reply)
+    image_id  = update.message.photo[-1].get_file()
 
+    bot.send_message(chat_id=chat_id, text='🔥 Analyzing image, be patient ! 🔥')
+
+    # prepare image for downlading
+    file_path = bot.get_file(image_id).file_path
+
+    # generate image download url
+    image_url = "https://api.telegram.org/file/bot{0}/{1}".format(environ['TELEGRAM_TOKEN'], file_path)
+    print(image_url)
+
+    # create folder to store pic temporary, if it doesnt exist
+    if not os.path.exists(result_storage_path):
+        os.makedirs(result_storage_path)
+
+    # retrieve and save image
+    image_name = "{0}.jpg".format(image_id)
+    urllib.request.urlretrieve(image_url, "{0}/{1}".format(result_storage_path, image_name))
+
+    return image_name
+    #bot.send_message(chat_id=chat_id, text=reply)
+
+    #image_name = save_image_from_message()
+
+    #reply = dataimg
+    #reply = dialogflow_text_request(update.message.text, chat_id)
+
+def get_image_id_from_message(bot, update):
+    # there are multiple array of images, check the biggest
+    return update.message.photo[len(update.message.photo) - 1].file_id
+
+def save_image_from_message(bot, update):
+    image_id = BOT.get_file(update.message.photo)
+
+    #image_id = update.message.photo.file_id
+    bot.send_message(chat_id=chat_id, text = '🔥 Analyzing image, be patient ! 🔥')
+
+    # prepare image for downlading
+    file_path = bot.get_file(image_id).file_path
+
+    # generate image download url
+    image_url = "https://api.telegram.org/file/bot{0}/{1}".format(environ['TELEGRAM_TOKEN'], file_path)
+    print(image_url)
+
+    # create folder to store pic temporary, if it doesnt exist
+    if not os.path.exists(result_storage_path):
+        os.makedirs(result_storage_path)
+
+    # retrieve and save image
+    image_name = "{0}.jpg".format(image_id)
+    urllib.request.urlretrieve(image_url, "{0}/{1}".format(result_storage_path, image_name))
+
+    return image_name;
 
 def voice(bot, update):
     chat_id = update.message.chat_id

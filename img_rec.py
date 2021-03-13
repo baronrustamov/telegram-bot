@@ -51,7 +51,8 @@ out = out + dataimg["webEntities"][2]["description"] + '\n' + '\n'
 txt = '''
 hi
 aloha
-zdraste'''
+zdraste
+'''
 print(txt)
 print(out)
 
