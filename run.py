@@ -66,12 +66,18 @@ def notify_admins(message):
         except (telegram.error.BadRequest, telegram.error.Unauthorized):
             logging.warning('Admin chat_id %s unreachable', admin_id)
 
+botinfo = '''
+Hi there! 
+I'm ur helper bot
+'''
 
 def start(bot, update):
     chat_id = update.message.chat_id
     bot.send_chat_action(chat_id=chat_id, action=telegram.ChatAction.TYPING)
-    reply = dialogflow_event_request('TELEGRAM_WELCOME', chat_id)
+    reply = botinfo
     bot.send_message(chat_id=chat_id, text=reply)
+    reply1 = dialogflow_event_request('TELEGRAM_WELCOME', chat_id)
+    bot.send_message(chat_id=chat_id, text=reply1)
 
 '''    
 def tghelp(bot, update):
@@ -290,6 +296,14 @@ UPDATER = Updater(token=TELEGRAM_TOKEN, use_context=False)
 DISPATCHER = UPDATER.dispatcher
 logging.info('Bot started')
 notify_admins('Bot started')
+
+# set commands
+UPDATER.bot.set_my_commands([
+    ('docs', 'Send the link to the docs. Use in PM.'),
+    ('wiki', 'Send the link to the wiki. Use in PM.'),
+    ('hints', 'List available tag hints. Use in PM.'),
+    ('help', 'Send the link to this bots README. Use in PM.'),
+])
 
 # Add telegram handlers
 START_HANDLER = CommandHandler('start', start)
