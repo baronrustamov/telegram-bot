@@ -28,14 +28,6 @@ from google.protobuf.json_format import MessageToJson, MessageToDict, Parse
 from google.cloud import vision_v1
 from google.cloud.vision_v1 import types
 
-'''
-import const
-from components import inlinequeries, taghints
-from const import (ENCLOSING_REPLACEMENT_CHARACTER, GITHUB_PATTERN, OFFTOPIC_CHAT_ID, OFFTOPIC_RULES,
-                   OFFTOPIC_USERNAME, ONTOPIC_RULES, ONTOPIC_USERNAME, ONTOPIC_RULES_MESSAGE_LINK,
-                   OFFTOPIC_RULES_MESSAGE_LINK, ONTOPIC_RULES_MESSAGE_ID,
-                   OFFTOPIC_RULES_MESSAGE_ID)
-'''
 #from util import get_reply_id, reply_or_edit, get_text_not_in_entities, github_issues, rate_limit, rate_limit_tracker
 
 
@@ -54,8 +46,17 @@ from lang import NOT_UNDERSTOOD
 import img_rec
 from img_rec import recog
 
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'vidkey.json'
+'''
+import const
+from components import inlinequeries, taghints
+from const import (ENCLOSING_REPLACEMENT_CHARACTER, GITHUB_PATTERN, OFFTOPIC_CHAT_ID, OFFTOPIC_RULES,
+                   OFFTOPIC_USERNAME, ONTOPIC_RULES, ONTOPIC_USERNAME, ONTOPIC_RULES_MESSAGE_LINK,
+                   OFFTOPIC_RULES_MESSAGE_LINK, ONTOPIC_RULES_MESSAGE_ID,
+                   OFFTOPIC_RULES_MESSAGE_ID)
+'''
 
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'vidkey.json'
+result_storage_path = 'tmp'
 client = vision_v1.ImageAnnotatorClient()
 
 def notify_admins(message):
@@ -80,7 +81,6 @@ def tghelp(bot, update):
     bot.send_message(chat_id=chat_id, text=reply)
 '''
 
-result_storage_path = 'tmp'
 
 
 def sandwich(bot, update):
@@ -151,8 +151,8 @@ def img(bot, update):
     dataimg = json.loads(res)
     jdump = json.dumps(res, indent=4)
     #print(dataimg["webEntities"][0]["description"])
-    print(dataimg)
     print(res)
+    print(dataimg)
     print(jdump)
 
     out = dataimg["webEntities"][0]["description"] + '\n' + '\n'
