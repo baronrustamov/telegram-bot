@@ -87,15 +87,12 @@ def tghelp(bot, update):
     bot.send_message(chat_id=chat_id, text=reply)
 '''
 
-
-
 def sandwich(bot, update):
     chat_id = update.message.chat_id
     bot.send_chat_action(chat_id=chat_id, action=telegram.ChatAction.TYPING)
     #reply = dialogflow_event_request('TELEGRAM_WELCOME', chat_id)
     #bot.send_message(chat_id=chat_id, text=reply)
     update.message.reply_text("Okay.", quote=True)
-
 
 def tghelp(bot, update):
     chat_id = update.message.chat_id
@@ -107,13 +104,11 @@ def tghelp(bot, update):
         'Come join us!',
         quote=True, disable_web_page_preview=False)#, parse_mode=ParseMode.MARKDOWN)
 
-
 def text(bot, update):
     chat_id = update.message.chat_id
     bot.send_chat_action(chat_id=chat_id, action=telegram.ChatAction.TYPING)
     reply = dialogflow_text_request(update.message.text, chat_id)
     bot.send_message(chat_id=chat_id, text=reply)
-
 
 def img(bot, update):
     chat_id = update.message.chat_id
@@ -220,7 +215,6 @@ def voice(bot, update):
         reply = dialogflow_text_request(message, chat_id)
     bot.send_message(chat_id=chat_id, text=reply)
 
-
 def inline(bot, update):
     query = update.inline_query.query
     if not query:
@@ -238,24 +232,20 @@ def inline(bot, update):
     )
     bot.answer_inline_query(update.inline_query.id, reply)
 
-
 def dialogflow_detect_intent(query_input, session_id):
     session = DIALOGFLOW.session_path(PROJECT_ID, session_id)
     response = DIALOGFLOW.detect_intent(session=session, query_input=query_input)
     return response.query_result.fulfillment_messages[0].text.text[0]
-
 
 def dialogflow_event_request(event, session_id):
     event_input = dialogflow.types.EventInput(name=event, language_code=LANG)
     query_input = dialogflow.types.QueryInput(event=event_input)
     return dialogflow_detect_intent(query_input, session_id)
 
-
 def dialogflow_text_request(query, session_id):
     text_input = dialogflow.types.TextInput(text=query, language_code=LANG)
     query_input = dialogflow.types.QueryInput(text=text_input)
     return dialogflow_detect_intent(query_input, session_id)
-
 
 def wit_voice_request(audio_path):
     message = None
@@ -266,7 +256,6 @@ def wit_voice_request(audio_path):
         except WitError:
             logging.warning(sys.exc_info()[1])
     return message
-
 
 def ogg_to_mp3(ogg_path, mp3_path):
     proc = subprocess.Popen(["ffmpeg", "-i", ogg_path,
