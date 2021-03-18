@@ -55,7 +55,7 @@ from const import (ENCLOSING_REPLACEMENT_CHARACTER, GITHUB_PATTERN, OFFTOPIC_CHA
                    OFFTOPIC_RULES_MESSAGE_ID)
 '''
 
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'vidkey.json'
+#os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'vidkey.json'
 result_storage_path = 'tmp'
 client = vision_v1.ImageAnnotatorClient()
 
