@@ -12,6 +12,8 @@ from google.protobuf.json_format import MessageToJson, MessageToDict, Parse
 from google.cloud import vision_v1
 from google.cloud.vision_v1 import types
 from urllib.request import urlopen, Request
+#from run import image_name
+
 '''
 from bs4 import BeautifulSoup
 import pandas as pd
@@ -26,27 +28,29 @@ result_urls = []
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'vidkey.json'
 
 client = vision_v1.ImageAnnotatorClient()
-FILE_NAME = '2.jpg'
+#FILE_NAME = 'file_0.jpg'
 
-with io.open(os.path.join(FILE_NAME), 'rb') as image_file:
-    content = image_file.read()
 
+
+def recog(image_name):
+    with io.open(os.path.join(image_name), 'rb') as image_file:
+        content = image_file.read()
 #image = vision_v1.types.Image(content=content)
-image = vision_v1.Image(content=content)
-response = client.web_detection(image=image)
-annotations = response.web_detection
-res = annotations.__class__.to_json(annotations)
-dataimg = json.loads(res)
-jdump = json.dumps(res,indent=4)
+    image = vision_v1.Image(content=content)
+    response = client.web_detection(image=image)
+    annotations = response.web_detection
+    res = annotations.__class__.to_json(annotations)
+    dataimg = json.loads(res)
+    jdump = json.dumps(res,indent=4)
+    print(dataimg["webEntities"][0]["description"])
+    print(dataimg)
+    print(res)
+    print(jdump)
+    out = dataimg["webEntities"][0]["description"] + '\n' + '\n'
+    #out = out + dataimg["webEntities"][1]["description"] + '\n' + '\n'
+    #out = out + dataimg["webEntities"][2]["description"] + '\n' + '\n'
+    #return out
 
-print(dataimg["webEntities"][0]["description"])
-print(dataimg)
-print(res)
-print(jdump)
-
-out = dataimg["webEntities"][0]["description"] + '\n' + '\n'
-out = out + dataimg["webEntities"][1]["description"] + '\n' + '\n'
-out = out + dataimg["webEntities"][2]["description"] + '\n' + '\n'
 
 txt = '''
 hi
@@ -54,7 +58,7 @@ aloha
 zdraste
 '''
 print(txt)
-print(out)
+
 
 
 '''

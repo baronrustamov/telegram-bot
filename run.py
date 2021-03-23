@@ -14,7 +14,7 @@ import requests
 import urllib
 import urllib.request
 import tempfile
-import os
+import os, io
 import subprocess
 import sys
 import dialogflow
@@ -23,6 +23,10 @@ import datetime as dtm
 from telegram.error import BadRequest, Unauthorized
 #from telegram.ext import CommandHandler, Updater, MessageHandler, Filters, CallbackContext
 from telegram.utils.helpers import escape_markdown
+
+from google.protobuf.json_format import MessageToJson, MessageToDict, Parse
+from google.cloud import vision_v1
+from google.cloud.vision_v1 import types
 
 '''
 import const
@@ -47,8 +51,12 @@ from wit.wit import WitError
 
 from config import TELEGRAM_TOKEN, ADMIN_CHAT_ID, DIALOGFLOW_KEY, WIT_TOKEN, LANG
 from lang import NOT_UNDERSTOOD
-from img_rec import res, dataimg
+import img_rec
+from img_rec import recog
 
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'vidkey.json'
+
+client = vision_v1.ImageAnnotatorClient()
 
 def notify_admins(message):
     for admin_id in ADMIN_CHAT_ID:
@@ -71,6 +79,7 @@ def tghelp(bot, update):
     reply = dialogflow_event_request('TELEGRAM_WELCOME', chat_id)
     bot.send_message(chat_id=chat_id, text=reply)
 '''
+
 result_storage_path = 'tmp'
 
 
@@ -104,6 +113,7 @@ def img(bot, update):
     chat_id = update.message.chat_id
     bot.send_chat_action(chat_id=chat_id, action=telegram.ChatAction.TYPING)
     image_id  = update.message.photo[-1].get_file()
+    image_id = image_id.file_id
 
     bot.send_message(chat_id=chat_id, text='🔥 Analyzing image, be patient ! 🔥')
 
@@ -111,7 +121,8 @@ def img(bot, update):
     file_path = bot.get_file(image_id).file_path
 
     # generate image download url
-    image_url = "https://api.telegram.org/file/bot{0}/{1}".format(['TELEGRAM_TOKEN'], file_path)
+    #image_url = "https://api.telegram.org/file/bot{0}/{1}".format(TELEGRAM_TOKEN, file_path)
+    image_url = file_path
     print(image_url)
 
     # create folder to store pic temporary, if it doesnt exist
@@ -122,9 +133,34 @@ def img(bot, update):
     image_name = "{0}.jpg".format(image_id)
     urllib.request.urlretrieve(image_url, "{0}/{1}".format(result_storage_path, image_name))
 
-    return image_name
+    #return image_name
 
-    #bot.send_message(chat_id=chat_id, text=reply)
+    print(image_name)
+    image_name = result_storage_path + '/'+ image_name
+    print(image_name)
+    #r = recog(image_name)
+    #reply = out
+
+    with io.open(os.path.join(image_name), 'rb') as image_file:
+        content = image_file.read()
+    # image = vision_v1.types.Image(content=content)
+    image = vision_v1.Image(content=content)
+    response = client.web_detection(image=image)
+    annotations = response.web_detection
+    res = annotations.__class__.to_json(annotations)
+    dataimg = json.loads(res)
+    jdump = json.dumps(res, indent=4)
+    #print(dataimg["webEntities"][0]["description"])
+    print(dataimg)
+    print(res)
+    print(jdump)
+
+    out = dataimg["webEntities"][0]["description"] + '\n' + '\n'
+    out = out + dataimg["webEntities"][1]["description"] + '\n' + '\n'
+    out = out + dataimg["webEntities"][2]["description"] + '\n' + '\n'
+    out = out + dataimg["webEntities"][3]["description"] + '\n' + '\n'
+
+    bot.send_message(chat_id=chat_id, text=out)
 
     #image_name = save_image_from_message()
 
