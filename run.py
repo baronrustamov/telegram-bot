@@ -264,7 +264,6 @@ def ogg_to_mp3(ogg_path, mp3_path):
                              "-y", mp3_path], stderr=subprocess.PIPE)
     logging.debug(proc.stderr.read().decode())
 
-
 logging.info('Program started')
 
 # Init dialogflow
