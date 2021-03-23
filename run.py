@@ -252,8 +252,8 @@ def wit_voice_request(audio_path):
     message = None
     with open(audio_path, 'rb') as voice_file:
         try:
-            reply = WIT.speech(voice_file, None, {'Content-Type': 'audio/mpeg3'})
-            message = str(reply["_text"])
+            reply = WIT.speech(voice_file, {'Content-Type': 'audio/mpeg3'}, None)
+            message = str(reply)
         except WitError:
             logging.warning(sys.exc_info()[1])
     return message
