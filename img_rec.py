@@ -35,7 +35,11 @@ client = vision_v1.ImageAnnotatorClient()
 def recog(image_name):
     with io.open(os.path.join(image_name), 'rb') as image_file:
         content = image_file.read()
+<<<<<<< HEAD
 #image = vision_v1.types.Image(content=content)
+=======
+    #image = vision_v1.types.Image(content=content)
+>>>>>>> 4631c70833b59b2d594199567a1db222c319d91a
     image = vision_v1.Image(content=content)
     response = client.web_detection(image=image)
     annotations = response.web_detection

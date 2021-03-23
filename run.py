@@ -28,6 +28,7 @@ from google.protobuf.json_format import MessageToJson, MessageToDict, Parse
 from google.cloud import vision_v1
 from google.cloud.vision_v1 import types
 
+<<<<<<< HEAD
 '''
 import const
 from components import inlinequeries, taghints
@@ -36,6 +37,8 @@ from const import (ENCLOSING_REPLACEMENT_CHARACTER, GITHUB_PATTERN, OFFTOPIC_CHA
                    OFFTOPIC_RULES_MESSAGE_LINK, ONTOPIC_RULES_MESSAGE_ID,
                    OFFTOPIC_RULES_MESSAGE_ID)
 '''
+=======
+>>>>>>> 4631c70833b59b2d594199567a1db222c319d91a
 #from util import get_reply_id, reply_or_edit, get_text_not_in_entities, github_issues, rate_limit, rate_limit_tracker
 
 
@@ -53,9 +56,24 @@ from config import TELEGRAM_TOKEN, ADMIN_CHAT_ID, DIALOGFLOW_KEY, WIT_TOKEN, LAN
 from lang import NOT_UNDERSTOOD
 import img_rec
 from img_rec import recog
+<<<<<<< HEAD
 
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'vidkey.json'
 
+=======
+
+'''
+import const
+from components import inlinequeries, taghints
+from const import (ENCLOSING_REPLACEMENT_CHARACTER, GITHUB_PATTERN, OFFTOPIC_CHAT_ID, OFFTOPIC_RULES,
+                   OFFTOPIC_USERNAME, ONTOPIC_RULES, ONTOPIC_USERNAME, ONTOPIC_RULES_MESSAGE_LINK,
+                   OFFTOPIC_RULES_MESSAGE_LINK, ONTOPIC_RULES_MESSAGE_ID,
+                   OFFTOPIC_RULES_MESSAGE_ID)
+'''
+
+#os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'vidkey.json'
+result_storage_path = 'tmp'
+>>>>>>> 4631c70833b59b2d594199567a1db222c319d91a
 client = vision_v1.ImageAnnotatorClient()
 
 def notify_admins(message):
@@ -65,12 +83,19 @@ def notify_admins(message):
         except (telegram.error.BadRequest, telegram.error.Unauthorized):
             logging.warning('Admin chat_id %s unreachable', admin_id)
 
+botinfo = '''
+Hi there! 
+I'm ur helper bot
+Enjoy!
+'''
 
 def start(bot, update):
     chat_id = update.message.chat_id
     bot.send_chat_action(chat_id=chat_id, action=telegram.ChatAction.TYPING)
-    reply = dialogflow_event_request('TELEGRAM_WELCOME', chat_id)
+    reply = botinfo
     bot.send_message(chat_id=chat_id, text=reply)
+    reply1 = dialogflow_event_request('TELEGRAM_WELCOME', chat_id)
+    bot.send_message(chat_id=chat_id, text=reply1)
 
 '''    
 def tghelp(bot, update):
@@ -79,9 +104,12 @@ def tghelp(bot, update):
     reply = dialogflow_event_request('TELEGRAM_WELCOME', chat_id)
     bot.send_message(chat_id=chat_id, text=reply)
 '''
+<<<<<<< HEAD
 
 result_storage_path = 'tmp'
 
+=======
+>>>>>>> 4631c70833b59b2d594199567a1db222c319d91a
 
 def sandwich(bot, update):
     chat_id = update.message.chat_id
@@ -89,7 +117,6 @@ def sandwich(bot, update):
     #reply = dialogflow_event_request('TELEGRAM_WELCOME', chat_id)
     #bot.send_message(chat_id=chat_id, text=reply)
     update.message.reply_text("Okay.", quote=True)
-
 
 def tghelp(bot, update):
     chat_id = update.message.chat_id
@@ -101,13 +128,11 @@ def tghelp(bot, update):
         'Come join us!',
         quote=True, disable_web_page_preview=False)#, parse_mode=ParseMode.MARKDOWN)
 
-
 def text(bot, update):
     chat_id = update.message.chat_id
     bot.send_chat_action(chat_id=chat_id, action=telegram.ChatAction.TYPING)
     reply = dialogflow_text_request(update.message.text, chat_id)
     bot.send_message(chat_id=chat_id, text=reply)
-
 
 def img(bot, update):
     chat_id = update.message.chat_id
@@ -151,8 +176,13 @@ def img(bot, update):
     dataimg = json.loads(res)
     jdump = json.dumps(res, indent=4)
     #print(dataimg["webEntities"][0]["description"])
+<<<<<<< HEAD
     print(dataimg)
     print(res)
+=======
+    print(res)
+    print(dataimg)
+>>>>>>> 4631c70833b59b2d594199567a1db222c319d91a
     print(jdump)
 
     out = dataimg["webEntities"][0]["description"] + '\n' + '\n'
@@ -214,7 +244,6 @@ def voice(bot, update):
         reply = dialogflow_text_request(message, chat_id)
     bot.send_message(chat_id=chat_id, text=reply)
 
-
 def inline(bot, update):
     query = update.inline_query.query
     if not query:
@@ -232,35 +261,30 @@ def inline(bot, update):
     )
     bot.answer_inline_query(update.inline_query.id, reply)
 
-
 def dialogflow_detect_intent(query_input, session_id):
     session = DIALOGFLOW.session_path(PROJECT_ID, session_id)
     response = DIALOGFLOW.detect_intent(session=session, query_input=query_input)
     return response.query_result.fulfillment_messages[0].text.text[0]
-
 
 def dialogflow_event_request(event, session_id):
     event_input = dialogflow.types.EventInput(name=event, language_code=LANG)
     query_input = dialogflow.types.QueryInput(event=event_input)
     return dialogflow_detect_intent(query_input, session_id)
 
-
 def dialogflow_text_request(query, session_id):
     text_input = dialogflow.types.TextInput(text=query, language_code=LANG)
     query_input = dialogflow.types.QueryInput(text=text_input)
     return dialogflow_detect_intent(query_input, session_id)
 
-
 def wit_voice_request(audio_path):
     message = None
     with open(audio_path, 'rb') as voice_file:
         try:
-            reply = WIT.speech(voice_file, None, {'Content-Type': 'audio/mpeg3'})
-            message = str(reply["_text"])
+            reply = WIT.speech(voice_file, {'Content-Type': 'audio/mpeg3'}, None)
+            message = str(reply)
         except WitError:
             logging.warning(sys.exc_info()[1])
     return message
-
 
 def ogg_to_mp3(ogg_path, mp3_path):
     proc = subprocess.Popen(["ffmpeg", "-i", ogg_path,
@@ -290,6 +314,14 @@ UPDATER = Updater(token=TELEGRAM_TOKEN, use_context=False)
 DISPATCHER = UPDATER.dispatcher
 logging.info('Bot started')
 notify_admins('Bot started')
+
+# set commands
+UPDATER.bot.set_my_commands([
+    ('docs', 'Send the link to the docs. Use in PM.'),
+    ('wiki', 'Send the link to the wiki. Use in PM.'),
+    ('hints', 'List available tag hints. Use in PM.'),
+    ('help', 'Send the link to this bots README. Use in PM.'),
+])
 
 # Add telegram handlers
 START_HANDLER = CommandHandler('start', start)
