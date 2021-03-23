@@ -69,6 +69,7 @@ def notify_admins(message):
 botinfo = '''
 Hi there! 
 I'm ur helper bot
+Enjoy!
 '''
 
 def start(bot, update):
