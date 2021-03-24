@@ -28,7 +28,6 @@ from google.protobuf.json_format import MessageToJson, MessageToDict, Parse
 from google.cloud import vision_v1
 from google.cloud.vision_v1 import types
 
-<<<<<<< HEAD
 '''
 import const
 from components import inlinequeries, taghints
@@ -37,8 +36,7 @@ from const import (ENCLOSING_REPLACEMENT_CHARACTER, GITHUB_PATTERN, OFFTOPIC_CHA
                    OFFTOPIC_RULES_MESSAGE_LINK, ONTOPIC_RULES_MESSAGE_ID,
                    OFFTOPIC_RULES_MESSAGE_ID)
 '''
-=======
->>>>>>> 4631c70833b59b2d594199567a1db222c319d91a
+
 #from util import get_reply_id, reply_or_edit, get_text_not_in_entities, github_issues, rate_limit, rate_limit_tracker
 
 
@@ -56,11 +54,10 @@ from config import TELEGRAM_TOKEN, ADMIN_CHAT_ID, DIALOGFLOW_KEY, WIT_TOKEN, LAN
 from lang import NOT_UNDERSTOOD
 import img_rec
 from img_rec import recog
-<<<<<<< HEAD
+
 
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'vidkey.json'
 
-=======
 
 '''
 import const
@@ -73,7 +70,6 @@ from const import (ENCLOSING_REPLACEMENT_CHARACTER, GITHUB_PATTERN, OFFTOPIC_CHA
 
 #os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'vidkey.json'
 result_storage_path = 'tmp'
->>>>>>> 4631c70833b59b2d594199567a1db222c319d91a
 client = vision_v1.ImageAnnotatorClient()
 
 def notify_admins(message):
@@ -104,12 +100,11 @@ def tghelp(bot, update):
     reply = dialogflow_event_request('TELEGRAM_WELCOME', chat_id)
     bot.send_message(chat_id=chat_id, text=reply)
 '''
-<<<<<<< HEAD
+
 
 result_storage_path = 'tmp'
 
-=======
->>>>>>> 4631c70833b59b2d594199567a1db222c319d91a
+
 
 def sandwich(bot, update):
     chat_id = update.message.chat_id
@@ -176,13 +171,13 @@ def img(bot, update):
     dataimg = json.loads(res)
     jdump = json.dumps(res, indent=4)
     #print(dataimg["webEntities"][0]["description"])
-<<<<<<< HEAD
+
     print(dataimg)
     print(res)
-=======
+
     print(res)
     print(dataimg)
->>>>>>> 4631c70833b59b2d594199567a1db222c319d91a
+
     print(jdump)
 
     out = dataimg["webEntities"][0]["description"] + '\n' + '\n'
