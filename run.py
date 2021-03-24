@@ -270,7 +270,7 @@ def voice(bot, update):
     chat_id = update.message.chat_id
     bot.send_chat_action(chat_id=chat_id, action=telegram.ChatAction.TYPING)
     new_file = BOT.get_file(update.message.voice.file_id)
-    file_audio_from = tempfile.mkstemp(suffix=".oga")
+    file_audio_from = tempfile.mkstemp(suffix=".ogg")
     file_audio_to = tempfile.mkstemp(suffix=".mp3")
     os.close(file_audio_from[0])
     os.close(file_audio_to[0])
