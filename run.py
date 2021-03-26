@@ -20,7 +20,7 @@ import sys
 import dialogflow
 import time
 import datetime as dtm
-from telegram import ParseMode, MessageEntity, ChatAction
+from telegram import ParseMode, MessageEntity, ChatAction, ReplyKeyboardMarkup
 from telegram.error import BadRequest, Unauthorized
 #from telegram.ext import CommandHandler, Updater, MessageHandler, Filters, CallbackContext
 from telegram.utils.helpers import escape_markdown
@@ -43,6 +43,7 @@ from img_rec import recog
 
 import pymysql.cursors
 
+#from utils import get_reply, fetch_news, topics_keyboard
 '''
 #from util import get_reply_id, reply_or_edit, get_text_not_in_entities, github_issues, rate_limit, rate_limit_tracker
 #from telegram import ParseMode, MessageEntity, ChatAction, Update, Bot, InlineQueryResultArticle, InputTextMessageContent
@@ -59,10 +60,16 @@ from const import (ENCLOSING_REPLACEMENT_CHARACTER, GITHUB_PATTERN, OFFTOPIC_CHA
                    OFFTOPIC_RULES_MESSAGE_LINK, ONTOPIC_RULES_MESSAGE_ID,
                    OFFTOPIC_RULES_MESSAGE_ID)
 '''
+from gnewsclient import gnewsclient
 
+
+topics_keyboard = ('Top Stories', 'World', 'Nation', 'Business', 'Technology', 'Entertainment', 'Sports', 'Science', 'Health')
 #os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'vidkey.json'
 result_storage_path = 'tmp'
 client = vision_v1.ImageAnnotatorClient()
+clientn = gnewsclient.NewsClient()
+
+
 
 def notify_admins(message):
     for admin_id in ADMIN_CHAT_ID:
@@ -85,6 +92,21 @@ def start(bot, update):
     reply1 = dialogflow_event_request('TELEGRAM_WELCOME', chat_id)
     bot.send_message(chat_id=chat_id, text=reply1)
 
+def news(bot, update):
+    """callback function for /news handler"""
+    bot.send_message(chat_id=update.message.chat_id, text="Choose a category",
+                     reply_markup=ReplyKeyboardMarkup.from_row(topics_keyboard))
+
+def send_news(bot, update):
+    reply = update.message.text
+    chat_id = update.message.chat_id
+    clientn.language = 'Ru'
+    clientn.location = 'Russia'
+    bot.send_chat_action(chat_id=chat_id, action=telegram.ChatAction.TYPING)
+    clientn.topic = reply
+    articles = clientn.get_news()[:5]
+    for article in articles:
+        bot.send_message(chat_id=update.message.chat_id, text=article['link'])
 
 '''    
 def tghelp(bot, update):
@@ -361,6 +383,7 @@ UPDATER.bot.set_my_commands([
     ('/start', 'Запускает бота заново'),
     ('/help', 'Помощь в использовании бота.'),
     ('/products', 'Список товаров в продаже'),
+    ('/news', 'Список товаров в продаже'),
 ])
 
 # Add telegram handlers
@@ -370,6 +393,9 @@ DISPATCHER.add_handler(START_HANDLER)
 TGHELP_HANDLER = CommandHandler('help', tghelp)
 DISPATCHER.add_handler(TGHELP_HANDLER)
 
+NEWS_HANDLER = CommandHandler('news', news)
+DISPATCHER.add_handler(NEWS_HANDLER)
+
 PRODUCTS_LIST = CommandHandler('products', productslist)
 DISPATCHER.add_handler(PRODUCTS_LIST)
 
@@ -378,8 +404,10 @@ DISPATCHER.add_handler(SUBSCRIPTIONS_LIST)
 
 sandwich_handler = MessageHandler(Filters.regex(r'(?i)[\s\S]*?((sudo )?make me a sandwich)[\s\S]*?'),
                                       sandwich)
-
 DISPATCHER.add_handler(sandwich_handler)
+
+newnews_handler = MessageHandler(Filters.text(topics_keyboard), send_news)
+DISPATCHER.add_handler(newnews_handler)
 
 img_handler = MessageHandler(Filters.photo, img)
 DISPATCHER.add_handler(img_handler)
