@@ -95,7 +95,7 @@ def start(bot, update):
 def news(bot, update):
     """callback function for /news handler"""
     bot.send_message(chat_id=update.message.chat_id, text="Choose a category",
-                     reply_markup=ReplyKeyboardMarkup.from_row(topics_keyboard))
+                     reply_markup=ReplyKeyboardMarkup.from_row(topics_keyboard))(one_time_keyboard=True)
 
 def send_news(bot, update):
     reply = update.message.text
