@@ -1,5 +1,5 @@
-dialogflow==0.4.0
-wit==5.1.0
+dialogflow
+wit
 beautifulsoup4
 fuzzywuzzy
 python-Levenshtein
