@@ -63,7 +63,7 @@ from const import (ENCLOSING_REPLACEMENT_CHARACTER, GITHUB_PATTERN, OFFTOPIC_CHA
 from gnewsclient import gnewsclient
 
 
-topics_keyboard = ('Top Stories', 'World', 'Nation', 'Business', 'Technology', 'Entertainment', 'Sports', 'Science', 'Health')
+#topics_keyboard = ('Top Stories', 'World', 'Nation', 'Business', 'Technology', 'Entertainment', 'Sports', 'Science', 'Health')
 #os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'vidkey.json'
 result_storage_path = 'tmp'
 client = vision_v1.ImageAnnotatorClient()
@@ -92,10 +92,17 @@ def start(bot, update):
     reply1 = dialogflow_event_request('TELEGRAM_WELCOME', chat_id)
     bot.send_message(chat_id=chat_id, text=reply1)
 
+topics_keyboard = [
+    ['Top Stories', 'World', 'Nation'],
+    ['Business', 'Technology', 'Entertainment'],
+    ['Sports', 'Science', 'Health']
+
 def news(bot, update):
     """callback function for /news handler"""
     bot.send_message(chat_id=update.message.chat_id, text="Choose a category",
-                     reply_markup=ReplyKeyboardMarkup.from_row(topics_keyboard))(one_time_keyboard=True)
+                     reply_markup=ReplyKeyboardMarkup(keyboard=topics_keyboard, one_time_keyboard=True))
+    #bot.send_message(chat_id=update.message.chat_id, text="Choose a category",
+    #                 reply_markup=ReplyKeyboardMarkup.from_row(topics_keyboard))(one_time_keyboard=True)
 
 def send_news(bot, update):
     reply = update.message.text
@@ -121,8 +128,8 @@ def subscripslist(bot, update):
     bot.send_chat_action(chat_id=chat_id, action=telegram.ChatAction.TYPING)
     connection = pymysql.connect(host='54.189.52.114',
                                  user='ubuntu',
-                                 password='zyrzak-kizfa4-nAcdog',
-                                 database='mainbulka',
+                                 password='',
+                                 database='',
                                  cursorclass=pymysql.cursors.DictCursor)
 
     with connection.cursor() as cursor:
