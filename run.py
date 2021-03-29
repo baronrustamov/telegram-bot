@@ -92,13 +92,13 @@ def start(bot, update):
     reply1 = dialogflow_event_request('TELEGRAM_WELCOME', chat_id)
     bot.send_message(chat_id=chat_id, text=reply1)
 
-topics_keyboard = [
-    ['Top Stories', 'World', 'Nation'],
-    ['Business', 'Technology', 'Entertainment'],
-    ['Sports', 'Science', 'Health']
 
 def news(bot, update):
     """callback function for /news handler"""
+    topics_keyboard = [
+        ['Top Stories', 'World', 'Nation'],
+        ['Business', 'Technology', 'Entertainment'],
+        ['Sports', 'Science', 'Health']
     bot.send_message(chat_id=update.message.chat_id, text="Choose a category",
                      reply_markup=ReplyKeyboardMarkup(keyboard=topics_keyboard, one_time_keyboard=True))
     #bot.send_message(chat_id=update.message.chat_id, text="Choose a category",
