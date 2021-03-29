@@ -93,15 +93,18 @@ def start(bot, update):
     bot.send_message(chat_id=chat_id, text=reply1)
 
 
-def news(bot, update):
-    """callback function for /news handler"""
-    topics_keyboard = [
+topics_keyboard = [
         ['Top Stories', 'World', 'Nation'],
         ['Business', 'Technology', 'Entertainment'],
         ['Sports', 'Science', 'Health']
+    ]
+tk = str(topics_keyboard)
+
+def news(bot, update):
+    """callback function for /news handler"""
     bot.send_message(chat_id=update.message.chat_id, text="Choose a category",
                      reply_markup=ReplyKeyboardMarkup(keyboard=topics_keyboard, one_time_keyboard=True))
-    #bot.send_message(chat_id=update.message.chat_id, text="Choose a category",
+    #bot.send_message(chat_id=update.message.chat_id, text=text,
     #                 reply_markup=ReplyKeyboardMarkup.from_row(topics_keyboard))(one_time_keyboard=True)
 
 def send_news(bot, update):
@@ -413,7 +416,7 @@ sandwich_handler = MessageHandler(Filters.regex(r'(?i)[\s\S]*?((sudo )?make me a
                                       sandwich)
 DISPATCHER.add_handler(sandwich_handler)
 
-newnews_handler = MessageHandler(Filters.text(topics_keyboard), send_news)
+newnews_handler = MessageHandler(Filters.text(tk), send_news)
 DISPATCHER.add_handler(newnews_handler)
 
 img_handler = MessageHandler(Filters.photo, img)
