@@ -265,6 +265,7 @@ def img(bot, update):
 
     bot.send_message(chat_id=chat_id, text=out)
 
+    #os.remove('{0}/{1}'.format(result_storage_path, image_name))
     #image_name = save_image_from_message()
 
     #reply = dataimg
