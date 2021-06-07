@@ -79,9 +79,9 @@ def notify_admins(message):
             logging.warning('Admin chat_id %s unreachable', admin_id)
 
 botinfo = '''
-Добро пожаловать
-<b>AI Here</b>
-<a href="http://aihere.ru">Заходите на наш сайт</a>
+Добро пожаловать в пекарню
+<b>Между нами булочками!</b>
+<a href="http://54.189.52.114">Заходите на наш сайт</a>
 '''
 
 def start(bot, update):
@@ -202,7 +202,7 @@ def tghelp(bot, update):
     #reply = dialogflow_event_request('TELEGRAM_WELCOME', chat_id)
     #bot.send_message(chat_id=chat_id, text=reply)
     update.message.reply_text(
-        'Наш сайт [здесь](http://AIhere.ru). '
+        'Наш сайт [здесь](http://54.189.52.114/). '
         'Присоединяйся!',
         quote=True, disable_web_page_preview=False, parse_mode=ParseMode.MARKDOWN)
 
