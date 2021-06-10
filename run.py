@@ -62,6 +62,26 @@ from const import (ENCLOSING_REPLACEMENT_CHARACTER, GITHUB_PATTERN, OFFTOPIC_CHA
 '''
 from gnewsclient import gnewsclient
 
+class Getip():
+    def __init__(self):
+        wan_ip = self.get_wan_ip()
+        lan_ip = self.get_local_ip()
+    def get_wan_ip(self):
+        w_ip = urlopen('http://ipecho.net/plain').read().decode('utf-8')
+        #print("External IP: ", w_ip)
+        self.wan_ip = w_ip
+        #return w_ip
+    def get_local_ip(self):
+        try:
+            l_ip = (socket.gethostbyname(socket.gethostname()))
+            #print("Internal IP: ", l_ip)
+            self.lan_ip = l_ip
+        except:
+            #res.configure(text='Unkown Error', fg='#red')
+            self.lan_ip = 'none'
+
+Getip1 = Getip()
+srvwanip = str(Getip1.wan_ip)
 
 #topics_keyboard = ('Top Stories', 'World', 'Nation', 'Business', 'Technology', 'Entertainment', 'Sports', 'Science', 'Health')
 #os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'vidkey.json'
@@ -69,7 +89,6 @@ from gnewsclient import gnewsclient
 result_storage_path = 'tmp'
 client = vision_v1.ImageAnnotatorClient()
 clientn = gnewsclient.NewsClient()
-
 
 
 def notify_admins(message):
@@ -396,7 +415,8 @@ BOT = telegram.Bot(TELEGRAM_TOKEN)
 UPDATER = Updater(token=TELEGRAM_TOKEN, use_context=False)
 DISPATCHER = UPDATER.dispatcher
 logging.info('Bot started')
-notify_admins('Bot started')
+notify_admins('AITALKBOT started')
+notify_admins("My server: wan: " + srvwanip + ' , lan: ' + str(Getip1.lan_ip))
 
 # set commands
 UPDATER.bot.set_my_commands([
