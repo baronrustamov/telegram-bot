@@ -36,6 +36,8 @@ from telegram import InlineQueryResultArticle, InputTextMessageContent
 from wit import Wit
 from wit.wit import WitError
 
+from urllib.request import Request, urlopen, ssl, socket
+
 from config import TELEGRAM_TOKEN, ADMIN_CHAT_ID, DIALOGFLOW_KEY, WIT_TOKEN, LANG
 from lang import NOT_UNDERSTOOD
 import img_rec
