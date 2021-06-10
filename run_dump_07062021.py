@@ -65,7 +65,6 @@ from gnewsclient import gnewsclient
 
 #topics_keyboard = ('Top Stories', 'World', 'Nation', 'Business', 'Technology', 'Entertainment', 'Sports', 'Science', 'Health')
 #os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'vidkey.json'
-
 result_storage_path = 'tmp'
 client = vision_v1.ImageAnnotatorClient()
 clientn = gnewsclient.NewsClient()
@@ -80,9 +79,9 @@ def notify_admins(message):
             logging.warning('Admin chat_id %s unreachable', admin_id)
 
 botinfo = '''
-Добро пожаловать
-<b>AI Here</b>
-<a href="http://aihere.ru">Заходите на наш сайт</a>
+Добро пожаловать в пекарню
+<b>Между нами булочками!</b>
+<a href="http://54.189.52.114">Заходите на наш сайт</a>
 '''
 
 def start(bot, update):
@@ -127,7 +126,6 @@ def tghelp(bot, update):
     bot.send_message(chat_id=chat_id, text=reply)
 '''
 
-'''
 def subscripslist(bot, update):
     chat_id = update.message.chat_id
     bot.send_chat_action(chat_id=chat_id, action=telegram.ChatAction.TYPING)
@@ -159,8 +157,7 @@ def subscripslist(bot, update):
         bot.send_message(chat_id=chat_id, text=reply, parse_mode=ParseMode.HTML)
     else: bot.send_message(chat_id=chat_id, text='U R NOT ADMIN', parse_mode=ParseMode.HTML)
     #update.message.reply_text("Okay.", quote=True)
-'''
-'''
+
 def productslist(bot, update):
     chat_id = update.message.chat_id
     bot.send_chat_action(chat_id=chat_id, action=telegram.ChatAction.TYPING)
@@ -191,7 +188,6 @@ def productslist(bot, update):
     connection.close()
     bot.send_message(chat_id=chat_id, text=reply, parse_mode=ParseMode.HTML)
     #update.message.reply_text("Okay.", quote=True)
-'''
 
 def sandwich(bot, update):
     chat_id = update.message.chat_id
@@ -206,7 +202,7 @@ def tghelp(bot, update):
     #reply = dialogflow_event_request('TELEGRAM_WELCOME', chat_id)
     #bot.send_message(chat_id=chat_id, text=reply)
     update.message.reply_text(
-        'Наш сайт [здесь](http://aihere.ru). '
+        'Наш сайт [здесь](http://54.189.52.114/). '
         'Присоединяйся!',
         quote=True, disable_web_page_preview=False, parse_mode=ParseMode.MARKDOWN)
 
@@ -228,7 +224,7 @@ def img(bot, update):
     file_path = bot.get_file(image_id).file_path
 
     # generate image download url
-    # image_url = "https://api.telegram.org/file/bot{0}/{1}".format(TELEGRAM_TOKEN, file_path)
+    #image_url = "https://api.telegram.org/file/bot{0}/{1}".format(TELEGRAM_TOKEN, file_path)
     image_url = file_path
     print(image_url)
 
@@ -258,19 +254,14 @@ def img(bot, update):
     dataimg = json.loads(res)
     jdump = json.dumps(res, indent=4)
     #print(dataimg["webEntities"][0]["description"])
-    #print(res)
-    #print(dataimg)
-    #print(jdump)
+    print(res)
+    print(dataimg)
+    print(jdump)
 
-    for outi in range (0,4):
-        out = dataimg["webEntities"][outi]["description"] + '\n' + '\n'
-
-    '''
     out = dataimg["webEntities"][0]["description"] + '\n' + '\n'
     out = out + dataimg["webEntities"][1]["description"] + '\n' + '\n'
     out = out + dataimg["webEntities"][2]["description"] + '\n' + '\n'
     out = out + dataimg["webEntities"][3]["description"] + '\n' + '\n'
-    '''
 
     bot.send_message(chat_id=chat_id, text=out)
 
@@ -402,8 +393,8 @@ notify_admins('Bot started')
 UPDATER.bot.set_my_commands([
     ('/start', 'Запускает бота заново'),
     ('/help', 'Помощь в использовании бота.'),
-    #('/products', 'Список товаров в продаже'),
-    #('/news', 'Список товаров в продаже'),
+    ('/products', 'Список товаров в продаже'),
+    ('/news', 'Список товаров в продаже'),
 ])
 
 # Add telegram handlers
@@ -416,8 +407,8 @@ DISPATCHER.add_handler(TGHELP_HANDLER)
 NEWS_HANDLER = CommandHandler('news', news)
 DISPATCHER.add_handler(NEWS_HANDLER)
 
-#PRODUCTS_LIST = CommandHandler('products', productslist)
-#DISPATCHER.add_handler(PRODUCTS_LIST)
+PRODUCTS_LIST = CommandHandler('products', productslist)
+DISPATCHER.add_handler(PRODUCTS_LIST)
 
 SUBSCRIPTIONS_LIST = CommandHandler('subs', subscripslist)
 DISPATCHER.add_handler(SUBSCRIPTIONS_LIST)
