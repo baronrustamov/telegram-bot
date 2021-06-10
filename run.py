@@ -408,7 +408,7 @@ except FileNotFoundError:
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = DIALOGFLOW_KEY
 DIALOGFLOW = dialogflow.SessionsClient()
 
-# Init WIT.AI
+# Init WIT.ai
 if WIT_TOKEN:
     WIT = Wit(WIT_TOKEN)
 
