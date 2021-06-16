@@ -441,8 +441,8 @@ DISPATCHER.add_handler(NEWS_HANDLER)
 #PRODUCTS_LIST = CommandHandler('products', productslist)
 #DISPATCHER.add_handler(PRODUCTS_LIST)
 
-SUBSCRIPTIONS_LIST = CommandHandler('subs', subscripslist)
-DISPATCHER.add_handler(SUBSCRIPTIONS_LIST)
+#SUBSCRIPTIONS_LIST = CommandHandler('subs', subscripslist)
+#DISPATCHER.add_handler(SUBSCRIPTIONS_LIST)
 
 sandwich_handler = MessageHandler(Filters.regex(r'(?i)[\s\S]*?((sudo )?make me a sandwich)[\s\S]*?'),
                                       sandwich)
