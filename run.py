@@ -227,7 +227,7 @@ def tghelp(bot, update):
     #reply = dialogflow_event_request('TELEGRAM_WELCOME', chat_id)
     #bot.send_message(chat_id=chat_id, text=reply)
     update.message.reply_text(
-        'Наш сайт [здесь](http://aihere.ru). '
+        'Наш сайт [здесь](http://aihere.ru/). '
         'Присоединяйся!',
         quote=True, disable_web_page_preview=False, parse_mode=ParseMode.MARKDOWN)
 
