@@ -125,7 +125,7 @@ topics_keyboard = [
     ]
 tk = str(topics_keyboard)
 
-def inlinequery(update: Update, context: CallbackContext) -> None:
+def inlinequery(bot, update):
     """Handle the inline query."""
     query = update.inline_query.query
 
