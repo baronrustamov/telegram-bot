@@ -125,37 +125,6 @@ topics_keyboard = [
     ]
 tk = str(topics_keyboard)
 
-def inlinequery(bot, update):
-    """Handle the inline query."""
-    query = update.inline_query.query
-
-    if query == "":
-        return
-
-    results = [
-        InlineQueryResultArticle(
-            id=str(uuid4()),
-            title="Caps",
-            input_message_content=InputTextMessageContent(query.upper()),
-        ),
-        InlineQueryResultArticle(
-            id=str(uuid4()),
-            title="Bold",
-            input_message_content=InputTextMessageContent(
-                f"*{escape_markdown(query)}*", parse_mode=ParseMode.MARKDOWN
-            ),
-        ),
-        InlineQueryResultArticle(
-            id=str(uuid4()),
-            title="Italic",
-            input_message_content=InputTextMessageContent(
-                f"_{escape_markdown(query)}_", parse_mode=ParseMode.MARKDOWN
-            ),
-        ),
-    ]
-
-    update.inline_query.answer(results)
-
 def news(bot, update):
     """callback function for /news handler"""
     bot.send_message(chat_id=update.message.chat_id, text="Choose a category",
@@ -398,6 +367,38 @@ def inline(bot, update):
         )
     )
     bot.answer_inline_query(update.inline_query.id, reply)
+    '''
+    def inlinequery(bot, update):
+        """Handle the inline query."""
+        query = update.inline_query.query
+
+        if query == "":
+            return
+
+        results = [
+            InlineQueryResultArticle(
+                id=str(uuid4()),
+                title="Caps",
+                input_message_content=InputTextMessageContent(query.upper()),
+            ),
+            InlineQueryResultArticle(
+                id=str(uuid4()),
+                title="Bold",
+                input_message_content=InputTextMessageContent(
+                    f"*{escape_markdown(query)}*", parse_mode=ParseMode.MARKDOWN
+                ),
+            ),
+            InlineQueryResultArticle(
+                id=str(uuid4()),
+                title="Italic",
+                input_message_content=InputTextMessageContent(
+                    f"_{escape_markdown(query)}_", parse_mode=ParseMode.MARKDOWN
+                ),
+            ),
+        ]
+
+        update.inline_query.answer(results)
+    '''
 
 def dialogflow_detect_intent(query_input, session_id):
     session = DIALOGFLOW.session_path(PROJECT_ID, session_id)
@@ -493,6 +494,11 @@ DISPATCHER.add_handler(TEXT_HANDLER)
 
 INLINE_HANDLER = InlineQueryHandler(inline)
 DISPATCHER.add_handler(INLINE_HANDLER)
+
+'''
+SEARCH_HANDLER = CommandHandler('search', search)
+DISPATCHER.add_handler(SEARCH_HANDLER)
+'''
 
 if WIT_TOKEN:
     VOICE_HANDLER = MessageHandler(Filters.voice, voice)
