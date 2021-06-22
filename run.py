@@ -88,8 +88,8 @@ class Getip():
 Getip1 = Getip()
 srvwanip = str(Getip1.wan_ip)
 
-#topics_keyboard = ('Top Stories', 'World', 'Nation', 'Business', 'Technology', 'Entertainment', 'Sports', 'Science', 'Health')
-#os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'vidkey.json'
+topics_keyboard = ('Top Stories', 'World', 'Nation', 'Business', 'Technology', 'Entertainment', 'Sports', 'Science', 'Health')
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'vidkey.json'
 
 result_storage_path = 'tmp'
 client = vision_v1.ImageAnnotatorClient()
