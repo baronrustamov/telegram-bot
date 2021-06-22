@@ -29,7 +29,7 @@ from google.cloud import vision_v1
 from google.cloud.vision_v1 import types
 
 from telegram.ext import Updater, CommandHandler, Filters, \
-    MessageHandler, InlineQueryHandler
+    MessageHandler, InlineQueryHandler, CallbackContext
 import telegram
 from telegram import InlineQueryResultArticle, InputTextMessageContent
 
@@ -40,10 +40,13 @@ from urllib.request import Request, urlopen, ssl, socket
 
 from config import TELEGRAM_TOKEN, ADMIN_CHAT_ID, DIALOGFLOW_KEY, WIT_TOKEN, LANG
 from lang import NOT_UNDERSTOOD
-import img_rec
-from img_rec import recog
 
-import pymysql.cursors
+from uuid import uuid4
+
+#import img_rec
+#from img_rec import recog
+
+#import pymysql.cursors
 
 #from utils import get_reply, fetch_news, topics_keyboard
 '''
@@ -121,6 +124,37 @@ topics_keyboard = [
         ['Sports', 'Science', 'Health']
     ]
 tk = str(topics_keyboard)
+
+def inlinequery(update: Update, context: CallbackContext) -> None:
+    """Handle the inline query."""
+    query = update.inline_query.query
+
+    if query == "":
+        return
+
+    results = [
+        InlineQueryResultArticle(
+            id=str(uuid4()),
+            title="Caps",
+            input_message_content=InputTextMessageContent(query.upper()),
+        ),
+        InlineQueryResultArticle(
+            id=str(uuid4()),
+            title="Bold",
+            input_message_content=InputTextMessageContent(
+                f"*{escape_markdown(query)}*", parse_mode=ParseMode.MARKDOWN
+            ),
+        ),
+        InlineQueryResultArticle(
+            id=str(uuid4()),
+            title="Italic",
+            input_message_content=InputTextMessageContent(
+                f"_{escape_markdown(query)}_", parse_mode=ParseMode.MARKDOWN
+            ),
+        ),
+    ]
+
+    update.inline_query.answer(results)
 
 def news(bot, update):
     """callback function for /news handler"""
