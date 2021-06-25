@@ -286,8 +286,10 @@ def img(bot, update):
     #print(dataimg)
     #print(jdump)
 
+    out = []
+
     for outi in range (0,4):
-        out = dataimg["webEntities"][outi]["description"] + '\n' + '\n'
+        out.append(dataimg["webEntities"][outi]["description"] + '\n' + '\n')
 
     '''
     out = dataimg["webEntities"][0]["description"] + '\n' + '\n'
