@@ -423,6 +423,7 @@ def dialogflow_detect_intent(query_input, session_id):
     wav_file = open("tmp/response.wav", "wb")
     wav_file.write(r_audio)
     wav_file.close()
+    #q = response.query_result.intent.training_phrases[0]
     return response.query_result.fulfillment_messages[0].text.text[0]
 
 def dialogflow_event_request(event, session_id):
