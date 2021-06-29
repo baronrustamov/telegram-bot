@@ -244,15 +244,15 @@ def text(bot, update):
     bot.send_chat_action(chat_id=chat_id, action=telegram.ChatAction.TYPING)
     try:
         reply = dialogflow_text_request(update.message.text, chat_id)
+        try:
+            audio = open("tmp/response.wav", "rb")
+            bot.send_audio(chat_id=chat_id, audio=audio)
+            audio.close()
+            os.remove("tmp/response.wav")
+        except:
+            pass
     except:
         reply = "не понятно, выражайся ясно, бади"
-    try:
-        audio = open("tmp/response.wav", "rb")
-        bot.send_audio(chat_id=chat_id, audio=audio)
-        audio.close()
-        os.remove("tmp/response.wav")
-    except:
-        pass
     reply = dialogflow_text_request(update.message.text, chat_id)
     bot.send_message(chat_id=chat_id, text=reply)
 
