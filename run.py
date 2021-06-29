@@ -104,9 +104,10 @@ def notify_admins(message):
             logging.warning('Admin chat_id %s unreachable', admin_id)
 
 botinfo = '''
-Добро пожаловать
-<b>AI Here</b>
-<a href="http://aihere.ru">Заходите на наш сайт</a>
+<b>Добро пожаловать!</b>
+Спросите меня что-нибудь или скажите любую фразу. Можно голосовым сообщением.
+Или отправьте картинку для распознавания объектов на ней.
+Или отправьте /news для получения новостей.
 '''
 
 def start(bot, update):
@@ -230,7 +231,11 @@ def tghelp(bot, update):
     #reply = dialogflow_event_request('TELEGRAM_WELCOME', chat_id)
     #bot.send_message(chat_id=chat_id, text=reply)
     update.message.reply_text(
-        'Наш сайт [здесь](http://aihere.ru/). '
+        'Спросите меня что-нибудь или скажите любую фразу. Можно голосовым сообщением.'
+        'Или отправьте картинку для распознавания объектов на ней.'
+        'Или отправьте /news для получения новостей.'
+        ' '
+        'Наш сайт [здесь](http://faceai.aihere.ru/). '
         'Присоединяйся!',
         quote=True, disable_web_page_preview=False, parse_mode=ParseMode.MARKDOWN)
 
@@ -475,7 +480,7 @@ UPDATER.bot.set_my_commands([
     ('/start', 'Запускает бота заново'),
     ('/help', 'Помощь в использовании бота.'),
     #('/products', 'Список товаров в продаже'),
-    #('/news', 'Список товаров в продаже'),
+    ('/news', 'Новости'),
 ])
 
 # Add telegram handlers
