@@ -242,9 +242,10 @@ def text(bot, update):
     except:
         reply = "не понятно, выражайся ясно, бади"
     try:
-        audio = open("response.wav", "rb")
+        audio = open("tmp/response.wav", "rb")
         bot.send_audio(chat_id=chat_id, audio=audio)
         audio.close()
+        os.remove("tmp/response.wav")
     except:
         pass
     reply = dialogflow_text_request(update.message.text, chat_id)
@@ -414,7 +415,7 @@ def dialogflow_detect_intent(query_input, session_id):
     session = DIALOGFLOW.session_path(PROJECT_ID, session_id)
     response = DIALOGFLOW.detect_intent(session=session, query_input=query_input)
     r_audio = response.output_audio
-    wav_file = open("response.wav", "wb")
+    wav_file = open("tmp/response.wav", "wb")
     wav_file.write(r_audio)
     wav_file.close()
     return response.query_result.fulfillment_messages[0].text.text[0]
