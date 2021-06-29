@@ -17,7 +17,7 @@ import tempfile
 import os, io
 import subprocess
 import sys
-import dialogflow
+import dialogflow_v2beta1 as dialogflow
 import time
 import datetime as dtm
 from telegram import ParseMode, MessageEntity, ChatAction, ReplyKeyboardMarkup
@@ -237,6 +237,16 @@ def tghelp(bot, update):
 def text(bot, update):
     chat_id = update.message.chat_id
     bot.send_chat_action(chat_id=chat_id, action=telegram.ChatAction.TYPING)
+    try:
+        reply = dialogflow_text_request(update.message.text, chat_id)
+    except:
+        reply = "не понятно, выражайся ясно, бади"
+    try:
+        audio = open("temp.wav", "rb")
+        bot.send_audio(chat_id=chat_id, audio=audio)
+        audio.close()
+    except:
+        pass
     reply = dialogflow_text_request(update.message.text, chat_id)
     bot.send_message(chat_id=chat_id, text=reply)
 
@@ -403,6 +413,10 @@ def inline(bot, update):
 def dialogflow_detect_intent(query_input, session_id):
     session = DIALOGFLOW.session_path(PROJECT_ID, session_id)
     response = DIALOGFLOW.detect_intent(session=session, query_input=query_input)
+    r_audio = response.output_audio
+    wav_file = open("temp.wav", "wb")
+    wav_file.write(r_audio)
+    wav_file.close()
     return response.query_result.fulfillment_messages[0].text.text[0]
 
 def dialogflow_event_request(event, session_id):
