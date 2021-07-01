@@ -29,7 +29,7 @@ from google.cloud import vision_v1
 from google.cloud.vision_v1 import types
 
 from telegram.ext import Updater, CommandHandler, Filters, \
-    MessageHandler, InlineQueryHandler, CallbackContext
+    MessageHandler, InlineQueryHandler, CallbackContext, ConversationHandler
 import telegram
 from telegram import InlineQueryResultArticle, InputTextMessageContent
 
@@ -499,6 +499,28 @@ DISPATCHER.add_handler(NEWS_HANDLER)
 
 #SUBSCRIPTIONS_LIST = CommandHandler('subs', subscripslist)
 #DISPATCHER.add_handler(SUBSCRIPTIONS_LIST)
+
+'''
+ENTRY, EXIT = range(2)
+conv_handler = ConversationHandler(
+    entry_points=[CommandHandler('start', start)],
+
+    states={
+
+        ENTRY: [CommandHandler('start', start), MessageHandler(Filters.text, fullname)],
+
+        EXIT: [MessageHandler(Filters.photo | Filters.document, photo)],
+
+        PHONE: [MessageHandler(Filters.contact |
+                               Filters.regex('^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$'),
+                               contact_callback)]
+    },
+
+    fallbacks=[CommandHandler('cancel', cancel)]
+)
+DISPATCHER.add_handler(conv_handler)
+'''
+
 
 sandwich_handler = MessageHandler(Filters.regex(r'(?i)[\s\S]*?((sudo )?make me a sandwich)[\s\S]*?'),
                                       sandwich)
