@@ -18,6 +18,7 @@ import os, io
 import subprocess
 import sys
 import dialogflow_v2beta1 as dialogflow
+import wikipedia
 import time
 import datetime as dtm
 from telegram import ParseMode, MessageEntity, ChatAction, ReplyKeyboardMarkup
@@ -109,6 +110,25 @@ botinfo = '''
 Или отправьте картинку для распознавания объектов на ней.
 Или отправьте /news для получения новостей.
 '''
+
+def wiki(bot, update):
+    chat_id=update.message.chat_id
+    query_in = str(update.message.text)
+    if len(query_in.split()) == 1:
+        reply = 'введите команду /wiki и запрос' + '\n' \
+                + 'Пример: /wiki машина'
+        bot.send_message(chat_id=chat_id, text=reply, parse_mode=ParseMode.HTML)
+        return
+    else:
+        try:
+            query_in = str(update.message.text).strip('/wiki  ')
+            print(query_in)
+            wikipedia.set_lang("RU")
+            wiksearch = wikipedia.summary(query_in, sentences=10)
+            bot.sendMessage(chat_id, wiksearch + '\n' + wikipedia.page(query_in).url)
+        except Exception as e:
+            bot.sendMessage(chat_id, 'Error :' + str(e))
+        return 0
 
 def start(bot, update):
     chat_id = update.message.chat_id
@@ -482,6 +502,7 @@ UPDATER.bot.set_my_commands([
     ('/help', 'Помощь в использовании бота.'),
     #('/products', 'Список товаров в продаже'),
     ('/news', 'Новости'),
+    ('/wiki', 'wikipedia'),
 ])
 
 # Add telegram handlers
@@ -493,6 +514,9 @@ DISPATCHER.add_handler(TGHELP_HANDLER)
 
 NEWS_HANDLER = CommandHandler('news', news)
 DISPATCHER.add_handler(NEWS_HANDLER)
+
+WIKI_HANDLER = CommandHandler('wiki', wiki)
+DISPATCHER.add_handler(WIKI_HANDLER)
 
 #PRODUCTS_LIST = CommandHandler('products', productslist)
 #DISPATCHER.add_handler(PRODUCTS_LIST)
