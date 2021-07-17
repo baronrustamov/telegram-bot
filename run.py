@@ -89,7 +89,7 @@ class Getip():
 Getip1 = Getip()
 srvwanip = str(Getip1.wan_ip)
 
-topics_keyboard = ('Top Stories', 'World', 'Nation', 'Business', 'Technology', 'Entertainment', 'Sports', 'Science', 'Health')
+topics_keyboard = ('World', 'Nation', 'Business', 'Technology', 'Entertainment', 'Sports', 'Science', 'Health')
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'vidkey.json'
 
 result_storage_path = 'tmp'
@@ -109,6 +109,7 @@ botinfo = '''
 Спросите меня что-нибудь или скажите любую фразу. Можно голосовым сообщением.
 Или отправьте картинку для распознавания объектов на ней.
 Или отправьте /news для получения новостей.
+введите команду /wiki и запрос:
 '''
 
 def wiki(bot, update):
