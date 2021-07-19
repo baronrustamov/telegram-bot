@@ -109,8 +109,39 @@ botinfo = '''
 Спросите меня что-нибудь или скажите любую фразу. Можно голосовым сообщением.
 Или отправьте картинку для распознавания объектов на ней.
 Или отправьте /news для получения новостей.
-введите команду /wiki и запрос:
+введите команду /wiki и запрос: Пример: /wiki машина
 '''
+
+def weather(bot, update):
+    s_city = "Moscow,RU"
+    city_id = 0
+    appid = "1062115caa55062322d004261ae449ce"
+    try:
+        res = requests.get("http://api.openweathermap.org/data/2.5/find",
+                           params={'q': s_city, 'type': 'like', 'units': 'metric', 'APPID': appid})
+        data = res.json()
+        cities = ["{} ({})".format(d['name'], d['sys']['country'])
+                  for d in data['list']]
+        print("city:", cities)
+        city_id = data['list'][0]['id']
+        print('city_id=', city_id)
+    except Exception as e:
+        print("Exception (find):", e)
+        pass
+    try:
+        res = requests.get("http://api.openweathermap.org/data/2.5/weather",
+                           params={'id': city_id, 'units': 'metric', 'lang': 'ru', 'APPID': appid})
+        data = res.json()
+        print("conditions:", data['weather'][0]['description'])
+        print("temp:", data['main']['temp'])
+        print("temp_min:", data['main']['temp_min'])
+        print("temp_max:", data['main']['temp_max'])
+        reply = "погода в Москве: " + str(data['weather'][0]['description'] + ', ' + str(data['main']['temp']))
+        bot.send_message(chat_id=update.message.chat_id, text=reply,
+                         reply_markup=ReplyKeyboardMarkup(keyboard=topics_keyboard, one_time_keyboard=True))
+    except Exception as e:
+        print("Exception (weather):", e)
+        pass
 
 def wiki(bot, update):
     chat_id=update.message.chat_id
@@ -504,6 +535,7 @@ UPDATER.bot.set_my_commands([
     #('/products', 'Список товаров в продаже'),
     ('/news', 'Новости'),
     ('/wiki', 'wikipedia'),
+    ('/weather', 'погода'),
 ])
 
 # Add telegram handlers
@@ -553,6 +585,9 @@ DISPATCHER.add_handler(sandwich_handler)
 
 newnews_handler = MessageHandler(Filters.text(tk), send_news)
 DISPATCHER.add_handler(newnews_handler)
+
+WEATHER = CommandHandler('weather', weather)
+DISPATCHER.add_handler(WEATHER)
 
 img_handler = MessageHandler(Filters.photo, img)
 DISPATCHER.add_handler(img_handler)
