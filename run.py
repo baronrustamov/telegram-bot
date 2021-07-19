@@ -137,8 +137,7 @@ def weather(bot, update):
         print("temp_min:", data['main']['temp_min'])
         print("temp_max:", data['main']['temp_max'])
         reply = "погода в Москве: " + str(data['weather'][0]['description'] + ', ' + str(data['main']['temp']))
-        bot.send_message(chat_id=update.message.chat_id, text=reply,
-                         reply_markup=ReplyKeyboardMarkup(keyboard=topics_keyboard, one_time_keyboard=True))
+        bot.send_message(chat_id=update.message.chat_id, text=reply)
     except Exception as e:
         print("Exception (weather):", e)
         pass
