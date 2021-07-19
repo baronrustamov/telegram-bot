@@ -115,7 +115,7 @@ botinfo = '''
 def weather(bot, update):
     s_city = "Moscow,RU"
     city_id = 0
-    appid = "1062115caa55062322d004261ae449ce"
+    appid = ""
     try:
         res = requests.get("http://api.openweathermap.org/data/2.5/find",
                            params={'q': s_city, 'type': 'like', 'units': 'metric', 'APPID': appid})
